@@ -13,12 +13,25 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Python.md.md",
+                "file": "API Trubleshooting.md.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Python.md"
+              "title": "API Trubleshooting.md"
+            }
+          },
+          {
+            "id": "7f608028a4438dea",
+            "type": "leaf",
+            "state": {
+              "type": "bases",
+              "state": {
+                "file": "Untitled.base",
+                "viewName": "View"
+              },
+              "icon": "lucide-table",
+              "title": "Untitled"
             }
           }
         ]
@@ -199,8 +212,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3efd00668e3282f4",
+  "active": "956ec70b7e6edcdf",
   "lastOpenFiles": [
+    "DBMS.md.md",
+    "Untitled.base",
+    "API Trubleshooting.md.md",
     "Python.md.md",
     "PYTHON"
   ]
