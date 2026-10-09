@@ -134,7 +134,6 @@ you specify the allowed origins/url's in CORS, when a browser sends the request 
 `thats why even if the status of the request  in the logs show 200ok, but it throws CORS blocked excception sometimes`
 
 The **CORS mechanism is enforced by the browser**, not by your FastAPI server itself.
-
 ### 1.7 The troubleshooting method (step by step)
 
 1. **Reproduce** — To reproduce a bug = follow the same steps/conditions that cause the bug so you can observe it yourself. get the exact request: method, URL, headers, body, time, environment (test/live), request id.
@@ -150,7 +149,6 @@ The **CORS mechanism is enforced by the browser**, not by your FastAPI server it
 6. **Compare with a working request** — change one thing at a time.
 
 7. **Fix, verify, document** — confirm with the customer, write what caused it.
-
 ### 1.8 API Development and Testing Tools
 
 - **Browser DevTools → Network tab** — every request, its headers, payload, response, timing.
@@ -167,7 +165,6 @@ curl -i -X POST https://api.shop.com/v1/orders \
   -H "Content-Type: application/json" \
   -d '{"item":"book","qty":2}'
 ```
-
 ### 1.9 Code: calling an API safely in JavaScript
 
 ```js
@@ -234,25 +231,66 @@ user.name = "Jairam";   // allowed — the object changed, not the binding
 ```
 
 ### 2.2 Data types and comparisons
+| Keyword | Scope    | Can reassign? | Can redeclare in the same scope? |
+| ------- | -------- | ------------- | -------------------------------- |
+| `var`   | Function | Yes           | Yes                              |
+| `let`   | Block    | Yes           | No                               |
+| `const` | Block    | No            | No                               |
+- `string` — `"hello"`
+    
+- `number` — `42`, `3.14`, and even `NaN`
+    
+- `boolean` — `true`, `false`
+    
+- `undefined` — a value has not been assigned
+    
+- `null` — intentional absence of a value
+    
+- `bigint` — large integers, such as `123n`
 
+- `symbol` — unique identifiers
+	
 - **Primitives:** string, number, boolean, `null`, `undefined`, bigint, symbol.
-- **Objects:** objects, arrays, functions, dates.
-- `null` = "intentionally empty"; `undefined` = "not set yet".
-- `typeof null` returns `"object"` (a famous old bug).
-- **Always use `===`** (strict, no type conversion). `==` converts types: `0 == ""` is `true`, `0 === ""` is `false`.
-- **Falsy values:** `false, 0, "", null, undefined, NaN`. Everything else is truthy (including `[]` and `{}`).
 
-### 2.3 Functions, arrow functions and `this`
+## 4. `==` versus `===`
 
-```js
-function add(a, b) { return a + b; }      // declaration (hoisted)
-const add2 = (a, b) => a + b;             // arrow function
+This is one of the most important concepts to master.
 
-const obj = {
-  name: "widget",
-  normal() { return this.name; },          // this = obj
-  arrow: () => this?.name                  // arrow has NO own this → undefined here
+- `==` compares values after possible type conversion.
+    
+- `===` compares without type conversion.
+
+``` javascript
+console.log(5 == "5");  // true
+console.log(5 === "5"); // false
+
+console.log(0 == false);  // true
+console.log(0 === false); // false
+
+console.log(null == undefined);  // true
+console.log(null === undefined); /
+```
+## 5. Functions and arrow functions
+
+There are several ways to create functions.
+
+```javascript
+// Function declaration
+function add(a, b) {
+    return a + b;
+}
+
+// Function expression
+const multiply = function(a, b) {
+    return a * b;
 };
+
+// Arrow function
+const subtract = (a, b) => a - b;
+
+console.log(add(2, 3));       // 5
+console.log(multiply(2, 3));  // 6
+console.log(subtract(5, 2));  // 3
 ```
 
 **`this` rule:** in a normal function, `this` is the object _before the dot_ when called. Arrow functions take `this` from the surrounding code. Losing `this` (e.g. passing `obj.normal` as a callback) is a common bug — fix with `.bind(obj)` or an arrow function.
@@ -261,7 +299,7 @@ const obj = {
 
 **Closure** = a function that remembers the variables around it, even after the outer function has finished.
 
-```js
+```javascript
 function makeCounter() {
   let count = 0;            // private variable
   return () => ++count;     // inner function "closes over" count
