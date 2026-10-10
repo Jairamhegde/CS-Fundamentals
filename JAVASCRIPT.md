@@ -1,7 +1,6 @@
 ## 2. JavaScript core
 
 **What & why:** JavaScript (JS) is the programming language of the web. It runs in every browser (making pages interactive) and on servers via Node.js. In support you will read customer code, explain console errors, and write small scripts to reproduce bugs — so focus on **async code, errors, and the DOM**.
-
 ### Important functions
 ---
 ```js
@@ -13,7 +12,6 @@ const id = setTimeout(callback, delay, arg1, arg2, ...);
 const id = setInterval(callback,delay,arg1,arg2)
 cleanrInterval(id) //clear interval
 ```
-
 ### 2.1 Variables: var, let, const
 ---
 
@@ -29,7 +27,6 @@ const user = { name: "JK" };
 user.name = "Jairam";   // allowed — the object changed, not the binding
 // user = {};            // TypeError: Assignment to constant variable
 ```
-
 ### 2.2 Data types and comparisons
 ---
 
@@ -75,7 +72,6 @@ console.log(null === undefined); /
 ```
 ## 5. Functions and arrow functions
 ---
-
 There are several ways to create functions.
 
 ```javascript
@@ -98,7 +94,6 @@ console.log(subtract(5, 2));  // 3
 ```
 
 **`this` rule:** in a normal function, `this` is the object _before the dot_ when called. Arrow functions take `this` from the surrounding code. Losing `this` (e.g. passing `obj.normal` as a callback) is a common bug — fix with `.bind(obj)` or an arrow function.
-
 ### 2.4 Scope and closures
 
 **Closure** = a function that remembers the variables around it, even after the outer function has finished.
@@ -114,7 +109,6 @@ next(); // 2
 ```
 
 Used for private data, event handlers, and debounce/throttle (section 8).
-
 ### 2.5 Arrays and objects you must know
 
 ```js
@@ -170,8 +164,6 @@ Custom recursive function
 ```
 ## Spread vs Rest
 ---
-
-
 ***Spread*** :Spread takes an array, object, or iterable and **expands it into individual elements/properties**.
 
 ***Rest :***Rest does the opposite: it **collects multiple values into one array or object**
@@ -228,7 +220,6 @@ const results = await Promise.allSettled([a(), b()]);               // never fai
 ```
 
 **Common bugs:** forgetting `await` (you get a `Promise {<pending>}` instead of data), no `.catch` ("Uncaught (in promise)" error), using `await` inside `forEach` (it doesn't wait — use `for...of`).
-
 ### 2.7 The event loop 
 
 Order of execution: **1) all synchronous code → 2) microtasks (promise callbacks) → 3) macrotasks (setTimeout, events)**.
@@ -246,6 +237,18 @@ console.log("D");
 ### 2.8 The DOM and events
 ---
 **DOM (Document Object Model)** = the browser's tree of objects built from the HTML. JS reads and changes the page through it.
+
+> ***addEventListener*** : allows to add multiple event listener making it highly dynamic
+```js
+element.addEventListener(eventType, callback, options);
+// event type : click, dbclick, mousescroll,
+// callback to execute on that event
+const btn = document.getElementById("btn");
+btn.addEventListener("click", function () {
+  console.log("Button clicked");
+});
+```
+> ***querySelector*** : allows to select the object by tag or css selector
 
 ```js
 const btn = document.querySelector("#buy");        // select (null if not found!)
@@ -269,15 +272,16 @@ document.addEventListener("DOMContentLoaded", init);
 
 ### 2.9 Errors you will see in tickets
 
-|   |   |   |
-|---|---|---|
-|Error|Meaning|Usual fix|
-|`TypeError: Cannot read properties of undefined (reading 'x')`|You did `obj.x` where `obj` is undefined|Check the data exists; use `obj?.x`|
-|`TypeError: x is not a function`|Calling something that isn't a function|Typo, wrong import, script not loaded|
-|`ReferenceError: x is not defined`|Variable never declared / script order|Load scripts in the right order|
-|`SyntaxError: Unexpected token '<'` in JSON|Got HTML (an error page) when JSON was expected|Check URL and status code|
-|`Uncaught (in promise)`|A rejected promise had no catch|Add try/catch or `.catch`|
-|`Failed to fetch`|Network failure, CORS block, or bad URL|Check Network tab and console|
+|                                                                |                                                 |                                       |
+| -------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------- |
+| Error                                                          | Meaning                                         | Usual fix                             |
+| `TypeError: Cannot read properties of undefined (reading 'x')` | You did `obj.x` where `obj` is undefined        | Check the data exists; use `obj?.x`   |
+| `TypeError: x is not a function`                               | Calling something that isn't a function         | Typo, wrong import, script not loaded |
+| `ReferenceError: x is not defined`                             | Variable never declared / script order          | Load scripts in the right order       |
+| `SyntaxError: Unexpected token '<'` in JSON                    | Got HTML (an error page) when JSON was expected | Check URL and status code             |
+| `Uncaught (in promise)`                                        | A rejected promise had no catch                 | Add try/catch or `.catch`             |
+| `Failed to fetch`                                              | Network failure, CORS block, or bad URL         | Check Network tab and console         |
+|                                                                |                                                 |                                       |
 
 ### 2.10 Storage, JSON and modules (quick facts)
 
@@ -285,3 +289,7 @@ document.addEventListener("DOMContentLoaded", init);
 - **localStorage** — 5–10 MB, survives restarts, same origin only. **sessionStorage** — cleared when the tab closes. **Cookies** — small, sent to the server with each request.
 - **Modules:** `import { x } from "./a.js"` / `export`. In Node, older code uses `require()`.
 - Debugging: `console.log`, `console.table`, `debugger;` statement, breakpoints in the Sources tab.
+# NEED TO COVER
+- [ ] loops
+- [ ] shorthand's
+
