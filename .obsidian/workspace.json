@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "JAVASCRIPT.md",
-                "mode": "source",
+                "file": "API Trubleshooting.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "JAVASCRIPT"
+              "title": "API Trubleshooting"
             }
           },
           {
@@ -70,7 +70,7 @@
               "state": {
                 "sortOrder": "alphabetical",
                 "autoReveal": false,
-                "showSearch": false,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
@@ -229,11 +229,13 @@
   },
   "active": "a295a38e044a138f",
   "lastOpenFiles": [
+    "JAVASCRIPT.md",
+    "API Trubleshooting.md",
+    "OOPS.md",
+    "OS Fundamentals.md",
     "DBMS.md.md",
     "Untitled.base",
-    "JAVASCRIPT.md",
     "New Text Document.txt",
-    "API Trubleshooting.md.md",
     "Python.md.md",
     "PYTHON"
   ]

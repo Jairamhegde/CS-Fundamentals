@@ -253,49 +253,9 @@ Example payload:
 - **Signature verification (HMAC)** — the provider computes `HMAC-SHA256(secret, raw_body)` and sends it in a header. You compute the same thing; if they match, the request is genuine and unchanged. Without this, anyone could POST fake "payment succeeded" events.
 - **Raw body** — the signature is computed on the _exact bytes_ received. If your framework parses JSON first and you re-stringify it, spacing changes and the signature fails. This is the #1 webhook bug.
 - **Timestamp / replay protection** — reject events older than ~5 minutes so a captured request can't be replayed.
-- **Idempotency** — providers deliver _at least once_, so you may get the same event twice. Store processed `event.id`s and skip duplicates.
+- **Idempotency** : performing the operation multiple times produces the same result, it is called idempotency
 - **Respond fast** — return 200 within a few seconds; do heavy work later. Slow handlers cause timeouts → retries → duplicates.
 - **Ordering** — events can arrive out of order; use timestamps or re-fetch the latest state from the API.
-
-### 3.3 Code: a safe webhook receiver (Node.js + Express)
-
-```js
-const express = require("express");
-const crypto = require("crypto");
-const app = express();
-
-const SECRET = process.env.WEBHOOK_SECRET;
-const processed = new Set(); // in production: a database table
-
-// express.raw keeps the body as raw bytes — needed for the signature check
-app.post("/webhooks/payments", express.raw({ type: "application/json" }), (req, res) => {
-  const received = req.get("X-Signature") || "";
-  const expected = crypto.createHmac("sha256", SECRET).update(req.body).digest("hex");
-
-  // timingSafeEqual avoids timing attacks; lengths must match first
-  const valid = received.length === expected.length &&
-    crypto.timingSafeEqual(Buffer.from(received), Buffer.from(expected));
-  if (!valid) return res.status(401).send("Invalid signature");
-
-  const event = JSON.parse(req.body.toString());
-
-  if (processed.has(event.id)) return res.sendStatus(200); // duplicate → ignore, but still 200
-  processed.add(event.id);
-
-  res.sendStatus(200);          // acknowledge quickly
-  handleEventLater(event);      // then do the slow work (DB update, email...)
-});
-
-function handleEventLater(event) {
-  if (event.type === "payment.succeeded") {
-    console.log("Mark order paid:", event.data.payment_id);
-  }
-}
-
-app.listen(3000);
-```
-
-**Explanation:** raw body → verify HMAC → reject if invalid (401) → skip duplicates → reply 200 → process. Say these five steps in the interview and you will sound experienced.
 
 ### 3.4 Testing webhooks locally
 
@@ -319,7 +279,6 @@ app.listen(3000);
 |Endpoint disabled|Too many failures → provider auto-disabled it; fix and re-enable, replay events|
 
 **Polling vs webhooks interview answer:** use webhooks for real-time events and efficiency; keep a periodic **reconciliation** job (poll the API) as a safety net for missed events.
-
 ## 4. HTML essentials
 
 **What & why:** HTML (HyperText Markup Language) describes the **structure and meaning** of a page — headings, paragraphs, forms, buttons, images. The browser reads it and builds the DOM. In support, you'll inspect a customer's page to see why an embed, form or script isn't working.
@@ -344,16 +303,24 @@ app.listen(3000);
 </html>
 ```
 
-### 4.2 Things interviewers ask
+### 4.2 Things to remember
 
-- **Element vs tag vs attribute:** `<a href="/x">Link</a>` — `a` is the tag, `href` an attribute, the whole thing an element.
-- **Block vs inline:** block (`div, p, h1, section`) starts on a new line, full width; inline (`span, a, strong`) sits within text.
-- **Semantic HTML:** `header, nav, main, article, section, footer, button` describe meaning → better accessibility and SEO than `div` everywhere.
+- **Element vs tag vs attribute:**  Element is a whole structure which consist of `tag`,`attributes and data`, where as  tag is a markup which defines the starting and ending of a element
+  attribute is the information specified inside the tag
+	
+- **Block vs inline:** block (`div, p, h1, section`) starts on a new line, full width;
+	inline  (`span, a, strong`) sits within text. does not takes extra space.
+	
+- **Semantic HTML:** `header, nav, main, article, section, footer, button` : convey meaning of the elements , lead to  better accessibility and SEO than `div` everywhere.
+
 - **`id` vs `class`:** `id` is unique per page; `class` can repeat. Duplicate ids break `getElementById` and labels.
-- **`data-*` attributes:** store custom data: `<li data-id="42">` → JS reads `el.dataset.id`.
+
+- **`data-*`  : attributes:**  Stores extra information inside elements , that JavaScript can use later for operations. 
+- `ARIA` : used when semantic tags are not enough to describe the behavior. we use aria as custom semantics
+
 - **Accessibility:** `alt` text on images, `<label for>` on inputs, real `<button>` instead of clickable `div`, ARIA only when needed.
 
-### 4.3 Script loading (a frequent cause of bugs)
+### 4.3 Script loading 
 
 |   |   |   |   |
 |---|---|---|---|

@@ -52,6 +52,18 @@ user.name = "Jairam";   // allowed — the object changed, not the binding
 	
 - **Primitives:** string, number, boolean, `null`, `undefined`, bigint, symbol.
 
+### `Number() vs parseInt() vs parseflaot()`
+
+- `Number` is is used to strictly convert the give n value to number type, returns NaN if fails.
+- `parseInt()` : converts the given value to integer value, parse until the number is valid. not stricter as Number
+- `parseFloat()` : parse value to float, not strict as Number, converts the value until it is valid
+```js
+var value = "12px"
+Number(value) = NaN
+parseInt(value) = 12
+parseFlaot(value) = 12 
+```
+
 ## 4. `==` versus `===`
 
 This is one of the most important concepts to master.
@@ -94,9 +106,16 @@ console.log(subtract(5, 2));  // 3
 ```
 
 **`this` rule:** in a normal function, `this` is the object _before the dot_ when called. Arrow functions take `this` from the surrounding code. Losing `this` (e.g. passing `obj.normal` as a callback) is a common bug — fix with `.bind(obj)` or an arrow function.
+
+| `Normal Functions`                         | `Arrow Functions`                          |
+| ------------------------------------------ | ------------------------------------------ |
+| uses function keyworkd                     | Does not used function keywod              |
+| it will have its own argument object       | it wont have its own argument objec        |
+| This can be used as a constructor function | This canot be used as constructor function |
+
 ### 2.4 Scope and closures
 
-**Closure** = a function that remembers the variables around it, even after the outer function has finished.
+**Closure** = An **inner function** can still remember and use variables from its **outer function**, even after the outer function has finished running.
 
 ```javascript
 function makeCounter() {
@@ -215,11 +234,15 @@ async function loadUser() {
 **Running in parallel:**
 
 ```js
-const [user, orders] = await Promise.all([getUser(), getOrders()]); // fails if ANY fails
-const results = await Promise.allSettled([a(), b()]);               // never fails; check each status
+const result = await Promise.all([getUser(), getOrders()]); 
+//rejects even if one of the promise fails, else returns list of promise results
+const results = await Promise.allSettled([a(), b()]);               
+//never reject irrespective of promise failed or not
+//return list of result of promises along with status,result, reason
 ```
 
 **Common bugs:** forgetting `await` (you get a `Promise {<pending>}` instead of data), no `.catch` ("Uncaught (in promise)" error), using `await` inside `forEach` (it doesn't wait — use `for...of`).
+
 ### 2.7 The event loop 
 
 Order of execution: **1) all synchronous code → 2) microtasks (promise callbacks) → 3) macrotasks (setTimeout, events)**.
@@ -289,7 +312,19 @@ document.addEventListener("DOMContentLoaded", init);
 - **localStorage** — 5–10 MB, survives restarts, same origin only. **sessionStorage** — cleared when the tab closes. **Cookies** — small, sent to the server with each request.
 - **Modules:** `import { x } from "./a.js"` / `export`. In Node, older code uses `require()`.
 - Debugging: `console.log`, `console.table`, `debugger;` statement, breakpoints in the Sources tab.
+
+### Loops in JavaScript
+---
+```js
+//ForEach
+array.forEach((element, index, array) => {
+  // element = current item
+  // index   = position (0, 1, 2, ...)
+  // array   = the original array
+});
+//atmost these many parameters
+```
 # NEED TO COVER
-- [ ] loops
+- [x] loops
 - [ ] shorthand's
 
