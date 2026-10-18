@@ -1,1 +1,1 @@
-# Computer Science Fundamental
+# Computer Science Fundamentals
