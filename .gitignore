@@ -1,2 +1,5 @@
-.obsidian
-untitled.base
+# Obsidian configuration
+.obsidian/
+
+# Obsidian base files
+*.base
