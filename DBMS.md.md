@@ -242,7 +242,7 @@ Isolation ensures that concurrently running transactions don't see each other's 
 | Read Committed   | Prevented  | Possible            | Possible     |
 | Repeatable Read  | Prevented  | Prevented           | Possible     |
 | Serializable     | Prevented  | Prevented           | Prevented    |
-|                  |            |                     |              |
+
 
 **Real-world example:** Read Committed (default in PostgreSQL/Oracle) is common for typical apps; Serializable is used where correctness (e.g., financial ledgers) outweighs throughput.
 #### What happens if isolation levels are weak??
@@ -347,8 +347,6 @@ No-sql are Non-relational databases which is used to store semi and unstructured
 - **Graph - Database**: store the data interm of `nodes`(entities) and `edges`(Attributes) 
   Basically used for traversing the data, used in fraud detentions, connection recommendation and all
 
-
-
 **CAP theorem:** a distributed system can only guarantee 2 of 3 — **C**onsistency, **A**vailability, **P**artition tolerance.
 
 **Real-world example:** A social media "likes" counter can tolerate slight inconsistency (AP system like Cassandra) for high availability; a bank ledger needs consistency (CP system).
@@ -356,7 +354,6 @@ No-sql are Non-relational databases which is used to store semi and unstructured
 **Likely follow-ups:** document vs key-value vs column-family vs graph databases, when you'd pick SQL over NoSQL.
 
 ---
-
 ### 13. Database Architecture & Data Dictionary
 
 **Definition:** The data dictionary stores metadata — table names, columns, data types, constraints, indexes — that the DBMS uses internally for parsing and optimization.
@@ -377,7 +374,6 @@ No-sql are Non-relational databases which is used to store semi and unstructured
 **Real-world example:** A large-scale app shards `Users` by region so no single server holds all data; read replicas serve read traffic while the primary handles writes.
 
 ---
-
 ### 15. File Organization & Storage Structures
 
 **Definition:** How rows are physically stored on disk — heap files, sorted files, hashed files — affects retrieval speed.

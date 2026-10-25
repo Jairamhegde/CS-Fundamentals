@@ -319,7 +319,8 @@ async function fetchWithRetry(url, options = {}, maxRetries = 4) {
 
 **What:** servers limit requests per time (e.g. 100/minute) and return 429 when exceeded.
 
-**Token bucket algorithm:** a bucket holds up to N tokens and refills at a fixed rate. Each request takes one token; empty bucket = reject (429). It allows short bursts but caps the average rate. (Other algorithms: fixed window, sliding window, leaky bucket.)
+**Token bucket algorithm:** Keeps a fixed bucket at the backend, whenever a request arrives, if the token is left in the bucket, then the request will be executed and one token will be removed from the bucket each time
+maintains a timed token generator which generates the token at a fixed rate and fills the bucket
 
 ```js
 class TokenBucket {
@@ -339,7 +340,8 @@ class TokenBucket {
 }
 ```
 
-**Client side fixes for 429:** backoff, queue requests, batch calls, cache results, use webhooks instead of polling.
+### Leak Bucket Algorithm :
+ based on the methodology of how a bucket having hole at the bottom leaks the water, each request will be filled to the bucket if the bucket having space, else it will be rejected. and request will be processed sequentially by the backend. 
 
 ### 8.3 Idempotency keys
 
